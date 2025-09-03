@@ -1,4 +1,4 @@
-package Estrutura;
+package Estrutura; //
 
 public class Estrutura {
     private int id;
