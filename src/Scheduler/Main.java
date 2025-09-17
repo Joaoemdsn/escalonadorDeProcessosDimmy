@@ -1,6 +1,5 @@
 package Scheduler;
 import model.Processo;
-import scheduler.Scheduler;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,13 +14,14 @@ public class Main {
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários
                 String[] partes = linha.split(";");
+                int id = Integer.parseInt(partes[0]);
                 String nome = partes [1];
                 int prioridade = Integer.parseInt(partes[2]);
                 int ciclos = Integer.parseInt(partes[3]);
                 String recurso = partes[4];
 
                 Processo p = new Processo(id, nome, prioridade, ciclos, recurso);
-                scheduler.adicionarProcesso(p);
+                scheduler.adicionarProcessos(p);
             }
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo processos: " + e.getMessage());
@@ -30,7 +30,7 @@ public class Main {
 
         //Execução de ciclos até todos os processos acabarem
         for (int i = 0; i < 20; i++) { // Ajuste dependendo do que for necessário para os processos.
-            scheduler.executarCiclosDeCPU
+            scheduler.executarCiclosDeCPU();
         }
     }
 }
