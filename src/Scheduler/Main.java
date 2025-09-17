@@ -1,6 +1,5 @@
 package Scheduler;
 import model.Processo;
-import Scheduler.Scheduler;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,13 +9,13 @@ public class Main {
     public static void main (String[] args) {
         Scheduler scheduler = new Scheduler();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\TrabalhoDimmyP1\\escalonadorDeProcessosDimmy\\src\\processos.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/processos.txt"))) {
             String linha;
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários
+                if (linha.trim().isEmpty() || linha.startsWith("#")) continue;
                 String[] partes = linha.split(";");
                 int id = Integer.parseInt(partes[0]);
-                String nome = partes [1];
+                String nome = partes[1];
                 int prioridade = Integer.parseInt(partes[2]);
                 int ciclos = Integer.parseInt(partes[3]);
                 String recurso = partes.length > 4 ? partes[4] : "";
@@ -29,13 +28,9 @@ public class Main {
             return;
         }
 
-<<<<<<< HEAD
-        while (!scheduler.todosProcessosFinalizados()){
-            scheduler.executarCicloDeCPU();
-=======
+        // Executa ciclos até todos os processos acabarem
         while (!scheduler.todosProcessosFinalizados()) {
-            scheduler.executarCiclosDeCPU();
->>>>>>> 14bbde8b67288f3bde9110a381d177bf736b960b
+            scheduler.executarCicloDeCPU();
         }
     }
 }

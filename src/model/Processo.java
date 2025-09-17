@@ -3,7 +3,7 @@ package model;
 public class Processo {
     private int id;
     private String nome;
-    private int prioridade;
+    private int prioridade; 
     private int ciclosNecessarios;
     private String recursoNecessario;
     private boolean precisaDesbloquear;
