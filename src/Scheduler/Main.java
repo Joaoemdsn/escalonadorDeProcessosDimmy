@@ -29,8 +29,13 @@ public class Main {
             return;
         }
 
+<<<<<<< HEAD
         while (!scheduler.todosProcessosFinalizados()){
             scheduler.executarCicloDeCPU();
+=======
+        while (!scheduler.todosProcessosFinalizados()) {
+            scheduler.executarCiclosDeCPU();
+>>>>>>> 14bbde8b67288f3bde9110a381d177bf736b960b
         }
     }
 }
