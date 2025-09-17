@@ -27,7 +27,7 @@ public class Scheduler {
             case 2:
                 lista_media_prioridade.adicionarFim(p);
                 break;
-            case 3;
+            case 3:
                 lista_baixa_prioridade.adicionarFim(p);
                 break;
         }
