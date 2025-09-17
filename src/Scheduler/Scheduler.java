@@ -18,7 +18,7 @@ public class Scheduler {
         this.contador_ciclos_alta_prioridade = 0;
     }
 
-    public void adicionarProcessos (Processo p){
+    public void adicionarProcesso(Processo p){
         switch (p.getPrioridade()) {
             case 1:
                 lista_alta_prioridade.adicionarFim(p);
@@ -32,99 +32,70 @@ public class Scheduler {
         }
     }
 
-    public void executarCiclosDeCPU(){
+    public void executarCicloDeCPU(){
         System.out.println("\n--- iCEV OS ---");
 
-        // Método para desbloquear processos bloqueados
-
+        // 1. Desbloqueia o processo mais antigo, se houver
         Processo desbloqueado = lista_bloqueados.removerInicio();
         if (desbloqueado != null) {
             System.out.println("Desbloqueando: " + desbloqueado.getNome());
-            adicionarProcessos(desbloqueado);
+            adicionarProcesso(desbloqueado);
         }
 
-        Processo processoExecutando = null;
-        
-        if (!lista_bloqueados.estaVazia()) {
-            Processo pDesbloqueado = lista_bloqueados.removerInicio();
-            System.out.println("EVENTO: Processo " + pDesbloqueado.getNome() + " desbloqueado e retornado a sua lista de prioridade original.");
-            switch (pDesbloqueado.getPrioridade()) {
-                case 1:
-                    lista_alta_prioridade.adicionarFim(pDesbloqueado);
-                    break;
-                case 2:
-                    lista_media_prioridade.adicionarFim(pDesbloqueado);
-                    break;
-                case 3:
-                    lista_baixa_prioridade.adicionarFim(pDesbloqueado);
-                    break;
-            }
-        }
+        Processo processoExecutado = null;
 
+        // 2. Prevenção de inanição
         if (contador_ciclos_alta_prioridade >= 5) {
-            System.out.println("REGRA ANTI-INANIÇÃO: Executando um processo de prioridade menor.");
             if (!lista_media_prioridade.estaVazia()) {
-                processoExecutando = lista_media_prioridade.removerInicio();
+                processoExecutado = lista_media_prioridade.removerInicio();
+                contador_ciclos_alta_prioridade = 0;
             } else if (!lista_baixa_prioridade.estaVazia()) {
-                processoExecutando = lista_baixa_prioridade.removerInicio();
-            }
-            if (processoExecutando != null) {
+                processoExecutado = lista_baixa_prioridade.removerInicio();
                 contador_ciclos_alta_prioridade = 0;
             }
         }
 
-        if (processoExecutando == null) {
+        // 3. Execução padrão
+        if (processoExecutado == null) {
             if (!lista_alta_prioridade.estaVazia()) {
-                processoExecutando = lista_alta_prioridade.removerInicio();
+                processoExecutado = lista_alta_prioridade.removerInicio();
                 contador_ciclos_alta_prioridade++;
             } else if (!lista_media_prioridade.estaVazia()) {
-                processoExecutando = lista_media_prioridade.removerInicio();
+                processoExecutado = lista_media_prioridade.removerInicio();
+                contador_ciclos_alta_prioridade = 0;
             } else if (!lista_baixa_prioridade.estaVazia()) {
-                processoExecutando = lista_baixa_prioridade.removerInicio();
+                processoExecutado = lista_baixa_prioridade.removerInicio();
+                contador_ciclos_alta_prioridade = 0;
             }
         }
-    
-      if (processoExecutando != null) {
-            System.out.println("PROCESSO EM EXECUÇÃO: " + processoExecutando.toString());
-            
-            if (processoExecutando.getRecursoNecessario() != null && processoExecutando.getRecursoNecessario().equals("DISCO") && !processoExecutando.getPrecisaDesbloquear()) {
-                System.out.println("EVENTO: Processo " + processoExecutando.getNome() + " bloqueado (necessita de DISCO).");
-                processoExecutando.setPrecisaDesbloquear(true);
-                lista_bloqueados.adicionarFim(processoExecutando);
-                if (processoExecutando.getPrioridade() == 1) {
-                    contador_ciclos_alta_prioridade--;
-                }
-            } else {
-                processoExecutando.setCiclosNecessarios(processoExecutando.getCiclosNecessarios() - 1);
 
-                if (processoExecutando.getCiclosNecessarios() > 0) {
-                    switch (processoExecutando.getPrioridade()) {
-                        case 1:
-                            lista_alta_prioridade.adicionarFim(processoExecutando);
-                            break;
-                        case 2:
-                            lista_media_prioridade.adicionarFim(processoExecutando);
-                            break;
-                        case 3:
-                            lista_baixa_prioridade.adicionarFim(processoExecutando);
-                            break;
-                    }
-                } else {
-                    System.out.println("EVENTO: Processo " + processoExecutando.getNome() + " terminou sua execução.");
-                }
+        // 4. Gerenciamento de recursos (bloqueio)
+        if (processoExecutado != null && processoExecutado.getRecursoNecessario().equalsIgnoreCase("DISCO") && !processoExecutado.getPrecisaDesbloquear()) {
+            processoExecutado.setPrecisaDesbloquear(true);
+            lista_bloqueados.adicionarFim(processoExecutado);
+            System.out.println("Processo bloqueado por recurso: " + processoExecutado.getNome());
+        } else if (processoExecutado != null) {
+            // Simulação de execução
+            processoExecutado.setCiclosNecessarios(processoExecutado.getCiclosNecessarios() - 1);
+            System.out.println("Executando: " + processoExecutado.getNome() + " | Ciclos restantes: " + processoExecutado.getCiclosNecessarios());
+            if (processoExecutado.getCiclosNecessarios() <= 0) {
+                System.out.println("Processo finalizado: " + processoExecutado.getNome());
+            } else {
+                adicionarProcesso(processoExecutado);
             }
-        } else {
-            System.out.println("PROCESSO EM EXECUÇÃO: NENHUM (todas as listas estão vazias).");
         }
-        
-        System.out.print("\nLISTA ALTA PRIORIDADE: ");
-        lista_alta_prioridade.imprimirLista();
-        System.out.print("\nLISTA MÉDIA PRIORIDADE: ");
-        lista_media_prioridade.imprimirLista();
-        System.out.print("\nLISTA BAIXA PRIORIDADE: ");
-        lista_baixa_prioridade.imprimirLista();
-        System.out.print("\nLISTA BLOQUEADOS: ");
-        lista_bloqueados.imprimirLista();
-        System.out.println("\n------------------------------------");
+
+        // 5. Exibe estado atual
+        System.out.print("Alta prioridade: "); lista_alta_prioridade.imprimirLista();
+        System.out.print("Média prioridade: "); lista_media_prioridade.imprimirLista();
+        System.out.print("Baixa prioridade: "); lista_baixa_prioridade.imprimirLista();
+        System.out.print("Bloqueados: "); lista_bloqueados.imprimirLista();
+    }
+
+    public boolean todosProcessosFinalizados() {
+        return lista_alta_prioridade.estaVazia() &&
+               lista_media_prioridade.estaVazia() &&
+               lista_baixa_prioridade.estaVazia() &&
+               lista_bloqueados.estaVazia();
     }
 }
