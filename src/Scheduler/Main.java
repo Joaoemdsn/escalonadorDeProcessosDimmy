@@ -23,7 +23,6 @@ public class Main {
                 int prioridade = Integer.parseInt(partes[2]);
                 int ciclos = Integer.parseInt(partes[3]);
                 String recurso = partes.length > 4 ? partes[4] : "";
-                int id = Integer.parseInt(partes[0]);
 
                 Processo p = new Processo(id, nome, prioridade, ciclos, recurso);
                 scheduler.adicionarProcessos(p);
