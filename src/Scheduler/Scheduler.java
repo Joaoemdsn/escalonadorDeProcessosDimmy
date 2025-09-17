@@ -75,8 +75,7 @@ public class Scheduler {
                 processoExecutando = lista_baixa_prioridade.removerInicio();
             }
         }
-    }
-}
+    
       if (processoExecutando != null) {
             System.out.println("PROCESSO EM EXECUÇÃO: " + processoExecutando.toString());
             
