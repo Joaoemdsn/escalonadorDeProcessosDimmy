@@ -33,7 +33,15 @@ public class Scheduler {
     }
 
     public void executarCiclosDeCPU(){
-        System.out.println("\n--- INICIANDO NOVO CICLO DE CPU ---");
+        System.out.println("\n--- iCEV OS ---");
+
+        // Método para desbloquear processos bloqueados
+
+        Processo desbloqueado = lista_bloqueados.removerInicio();
+        if (desbloqueado != null) {
+            System.out.println("Desbloqueando: " + desbloqueado.getNome());
+            adicionarProcessos(desbloqueado);
+        }
 
         Processo processoExecutando = null;
         

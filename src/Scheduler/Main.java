@@ -1,6 +1,6 @@
 package Scheduler;
 import model.Processo;
-import scheduler.Scheduler;
+import Scheduler.Scheduler;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +10,7 @@ public class Main {
     public static void main (String[] args) {
         Scheduler scheduler = new Scheduler();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/processos.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("C:\\TrabalhoDimmyP1\\escalonadorDeProcessosDimmy\\src\\processos.txt"))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários
@@ -18,19 +18,19 @@ public class Main {
                 String nome = partes [1];
                 int prioridade = Integer.parseInt(partes[2]);
                 int ciclos = Integer.parseInt(partes[3]);
-                String recurso = partes[4];
+                String recurso = partes.length > 4 ? partes[4] : "";
+                int id = Integer.parseInt(partes[0]);
 
                 Processo p = new Processo(id, nome, prioridade, ciclos, recurso);
-                scheduler.adicionarProcesso(p);
+                scheduler.adicionarProcessos(p);
             }
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo processos: " + e.getMessage());
             return;
         }
 
-        //Execução de ciclos até todos os processos acabarem
-        for (int i = 0; i < 20; i++) { // Ajuste dependendo do que for necessário para os processos.
-            scheduler.executarCiclosDeCPU
+        while (!scheduler.todosProcessosFinalizados()){
+            scheduler.executarCiclosDeCPU();
         }
     }
 }
