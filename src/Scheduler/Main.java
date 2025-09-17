@@ -1,9 +1,6 @@
 package Scheduler;
 import model.Processo;
-<<<<<<< HEAD
 import Scheduler.Scheduler;
-=======
->>>>>>> 3a5e070ba656666a544e66e4a4f847cf86888f75
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -32,12 +29,7 @@ public class Main {
             return;
         }
 
-<<<<<<< HEAD
-        while (!scheduler.todosProcessosFinalizados()){
-=======
-        //Execução de ciclos até todos os processos acabarem
-        for (int i = 0; i < 20; i++) { // Ajuste dependendo do que for necessário para os processos.
->>>>>>> 3a5e070ba656666a544e66e4a4f847cf86888f75
+        while (!scheduler.todosProcessosFinalizados()) {
             scheduler.executarCiclosDeCPU();
         }
     }
