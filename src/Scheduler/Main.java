@@ -1,6 +1,9 @@
 package Scheduler;
 import model.Processo;
+<<<<<<< HEAD
 import Scheduler.Scheduler;
+=======
+>>>>>>> 3a5e070ba656666a544e66e4a4f847cf86888f75
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +18,7 @@ public class Main {
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários
                 String[] partes = linha.split(";");
+                int id = Integer.parseInt(partes[0]);
                 String nome = partes [1];
                 int prioridade = Integer.parseInt(partes[2]);
                 int ciclos = Integer.parseInt(partes[3]);
@@ -29,7 +33,12 @@ public class Main {
             return;
         }
 
+<<<<<<< HEAD
         while (!scheduler.todosProcessosFinalizados()){
+=======
+        //Execução de ciclos até todos os processos acabarem
+        for (int i = 0; i < 20; i++) { // Ajuste dependendo do que for necessário para os processos.
+>>>>>>> 3a5e070ba656666a544e66e4a4f847cf86888f75
             scheduler.executarCiclosDeCPU();
         }
     }
