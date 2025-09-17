@@ -1,18 +1,44 @@
-## Getting Started
+# Escalonador de Processos
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Este projeto simula um escalonador de processos com três filas de prioridade (alta, média e baixa) e uma fila de bloqueados. O objetivo é demonstrar como processos são gerenciados e executados conforme suas prioridades e necessidades de recursos.
 
-## Folder Structure
+## Funcionamento
 
-The workspace contains two folders by default, where:
+- **Processos** são lidos do arquivo `processos.txt` e distribuídos nas filas de prioridade conforme o valor informado.
+- A cada ciclo de CPU, o escalonador seleciona o próximo processo a ser executado, priorizando a fila de alta prioridade.
+- Se um processo precisa de um recurso bloqueante (por exemplo, DISCO), ele é movido para a fila de bloqueados e só retorna após um ciclo.
+- Existe uma regra anti-inanição: após 5 ciclos consecutivos executando processos de alta prioridade, o escalonador força a execução de um processo de prioridade menor, se houver.
+- Quando um processo termina todos os seus ciclos, ele é removido do sistema.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Formato do arquivo `processos.txt`
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+Cada linha representa um processo e deve seguir o formato:
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+```
+id;nome;prioridade;ciclosNecessarios;recursoNecessario
+```
 
-## Dependency Management
+- **id**: Número inteiro identificador do processo.
+- **nome**: Nome do processo.
+- **prioridade**: 1 (alta), 2 (média), 3 (baixa).
+- **ciclosNecessarios**: Número de ciclos de CPU necessários para o processo terminar.
+- **recursoNecessario**: Nome do recurso necessário (`CPU`, `DISCO`, `MEMORIA`, etc).
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+### Exemplo
+
+```
+1;Editor;1;5;DISCO
+2;Compilador;2;3;MEMORIA
+3;Navegador;3;4;DISCO
+```
+
+Linhas em branco ou iniciadas por `#` são ignoradas.
+
+## Execução
+
+Basta executar o programa principal (`Main.java`). O sistema irá ler os processos do arquivo, simular os ciclos de CPU e mostrar o estado das filas a cada ciclo.
+
+```bash
+javac -d bin src/model/*.java src/scheduler/*.java
+java -cp bin scheduler.Main
+```

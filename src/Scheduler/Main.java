@@ -10,11 +10,11 @@ public class Main {
     public static void main (String[] args) {
         Scheduler scheduler = new Scheduler();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filename:"processos.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/processos.txt"))) {
             String linha;
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty() || linha.starsWith(prefix:"#")) continue; // Código para ignorar linhas vazias ou comentários
-                String[] partes = linha.split(regex:";");
+                if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários
+                String[] partes = linha.split(";");
                 String nome = partes [1];
                 int prioridade = Integer.parseInt(partes[2]);
                 int ciclos = Integer.parseInt(partes[3]);
