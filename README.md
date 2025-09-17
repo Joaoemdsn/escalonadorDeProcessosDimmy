@@ -39,6 +39,7 @@ Linhas em branco ou iniciadas por `#` são ignoradas.
 Basta executar o programa principal (`Main.java`). O sistema irá ler os processos do arquivo, simular os ciclos de CPU e mostrar o estado das filas a cada ciclo.
 
 ```bash
-javac -d bin src/model/*.java src/scheduler/*.java
-java -cp bin scheduler.Main
+cd c:\TrabalhoDimmyP1\escalonadorDeProcessosDimmy\src
+javac Scheduler\Main.java Scheduler\Scheduler.java model\Processo.java model\No.java model\ListaDeProcessos.java
+java Scheduler.main
 ```
