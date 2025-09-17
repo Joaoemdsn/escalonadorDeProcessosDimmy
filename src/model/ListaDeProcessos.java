@@ -1,4 +1,4 @@
-package Estrutura;
+package model;
 
 public class ListaDeProcessos {
     private No head;
