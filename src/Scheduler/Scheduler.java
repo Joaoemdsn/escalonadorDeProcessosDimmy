@@ -77,3 +77,47 @@ public class Scheduler {
         }
     }
 }
+      if (processoExecutando != null) {
+            System.out.println("PROCESSO EM EXECUÇÃO: " + processoExecutando.toString());
+            
+            if (processoExecutando.getRecursoNecessario() != null && processoExecutando.getRecursoNecessario().equals("DISCO") && !processoExecutando.getPrecisaDesbloquear()) {
+                System.out.println("EVENTO: Processo " + processoExecutando.getNome() + " bloqueado (necessita de DISCO).");
+                processoExecutando.setPrecisaDesbloquear(true);
+                lista_bloqueados.adicionarFim(processoExecutando);
+                if (processoExecutando.getPrioridade() == 1) {
+                    contador_ciclos_alta_prioridade--;
+                }
+            } else {
+                processoExecutando.setCiclosNecessarios(processoExecutando.getCiclosNecessarios() - 1);
+
+                if (processoExecutando.getCiclosNecessarios() > 0) {
+                    switch (processoExecutando.getPrioridade()) {
+                        case 1:
+                            lista_alta_prioridade.adicionarFim(processoExecutando);
+                            break;
+                        case 2:
+                            lista_media_prioridade.adicionarFim(processoExecutando);
+                            break;
+                        case 3:
+                            lista_baixa_prioridade.adicionarFim(processoExecutando);
+                            break;
+                    }
+                } else {
+                    System.out.println("EVENTO: Processo " + processoExecutando.getNome() + " terminou sua execução.");
+                }
+            }
+        } else {
+            System.out.println("PROCESSO EM EXECUÇÃO: NENHUM (todas as listas estão vazias).");
+        }
+        
+        System.out.print("\nLISTA ALTA PRIORIDADE: ");
+        lista_alta_prioridade.imprimirLista();
+        System.out.print("\nLISTA MÉDIA PRIORIDADE: ");
+        lista_media_prioridade.imprimirLista();
+        System.out.print("\nLISTA BAIXA PRIORIDADE: ");
+        lista_baixa_prioridade.imprimirLista();
+        System.out.print("\nLISTA BLOQUEADOS: ");
+        lista_bloqueados.imprimirLista();
+        System.out.println("\n------------------------------------");
+    }
+}
