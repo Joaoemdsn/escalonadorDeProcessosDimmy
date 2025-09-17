@@ -1,7 +1,5 @@
 package model;
 
-//Alteração para uma lista circular visando a melhoria do algoritmo do escalonamento
-
 public class ListaDeProcessos {
     private No head;
     private No tail;
@@ -20,7 +18,7 @@ public class ListaDeProcessos {
         if (estaVazia()) {
             head = novoNo;
             tail = novoNo;
-            novoNo.proximo = head; // Transforma em uma circularidade, que o professor Dimmy achou melhor
+            novoNo.proximo = head;
         } else {
             tail.proximo = novoNo;
             novoNo.proximo = head;
@@ -45,18 +43,18 @@ public class ListaDeProcessos {
 
     public void imprimirLista() {
         if (estaVazia()) {
-            System.out.print("[Lista Vazia]");
-            System.out.println();
+            System.out.println("[Lista Vazia]");
             return;
         }
         No atual = head;
+        StringBuilder sb = new StringBuilder();
         do {
-            System.out.println(atual.processo.toString());
+            sb.append(atual.processo.toString());
             atual = atual.proximo;
             if (atual != head) {
-                System.out.println(" -> ");
+                sb.append(" -> ");
             }
         } while (atual != head);
-        System.out.println();
+        System.out.println(sb.toString());
     }
 }
