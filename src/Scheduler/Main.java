@@ -10,7 +10,8 @@ public class Main {
     public static void main (String[] args) {
         Scheduler scheduler = new Scheduler();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\TrabalhoDimmyP1\\escalonadorDeProcessosDimmy\\src\\processos.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/processos.txt"))) {
+
             String linha;
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários
