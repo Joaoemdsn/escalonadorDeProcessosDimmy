@@ -11,7 +11,6 @@ public class Main {
         Scheduler scheduler = new Scheduler();
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/processos.txt"))) {
-
             String linha;
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty() || linha.startsWith("#")) continue; // Código para ignorar linhas vazias ou comentários

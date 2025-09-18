@@ -43,3 +43,6 @@ cd c:\TrabalhoDimmyP1\escalonadorDeProcessosDimmy\src
 javac Scheduler\Main.java Scheduler\Scheduler.java model\Processo.java model\No.java model\ListaDeProcessos.java
 java Scheduler.main
 ```
+## Relatório
+
+[Baixe o manual em PDF](https://github.com/Joaoemdsn/escalonadorDeProcessosDimmy/issues/4#issue-3424966584)
